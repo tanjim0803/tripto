@@ -2,12 +2,12 @@ export default function Home() {
   return (
     <div className="mb-10 pl-10">
       <div className="mt-5">
-        <p className="text-2xl text-primary-50">Tripto</p>
-        <p className="text-2xl text-primary-100">Tripto</p>
-        <p className="text-2xl text-primary-200">Tripto</p>
-        <p className="text-2xl text-primary-300">Tripto</p>
-        <p className="text-2xl text-primary-400">Tripto</p>
-        <p className="text-2xl text-primary-500">Tripto</p>
+        <h1 className="text-primary-50">Tripto</h1>
+        <h2 className="text-primary-100">Tripto</h2>
+        <h3 className="text-primary-200">Tripto</h3>
+        <h4 className="text-primary-300">Tripto</h4>
+        <h5 className="text-primary-400">Tripto</h5>
+        <h6 className="text-primary-500">Tripto</h6>
         <p className="text-2xl text-primary-600">Tripto</p>
         <p className="text-2xl text-primary-700">Tripto</p>
         <p className="text-2xl text-primary-800">Tripto</p>

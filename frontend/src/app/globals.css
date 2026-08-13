@@ -199,10 +199,49 @@
   html {
     @apply font-sans;
   }
+  h1 {
+    @apply text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold;
+  }
+  h2 {
+    @apply text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold;
+  }
+  h3 {
+    @apply text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold;
+  }
+  h4 {
+    @apply text-xl lg:text-2xl xl:text-3xl font-semibold;
+  }
+  h5 {
+    @apply text-xl lg:text-2xl font-medium;
+  }
+  h6 {
+    @apply text-xl font-normal lg:font-medium;
+  }
+  p {
+    @apply text-sm md:text-base;
+  }
 }
 
 @layer components {
   .container-main {
     @apply max-w-7xl mx-auto px-5 mt-8 md:mt-12 lg:mt-15 xl:mt-20;
+  }
+  .btn-l {
+    @apply text-xl lg:text-2xl font-medium;
+  }
+  .btn-m {
+    @apply text-lg lg:text-xl font-medium;
+  }
+  .btn-s {
+    @apply text-base lg:text-lg font-medium;
+  }
+  .btn-xs {
+    @apply text-sm lg:text-base font-medium;
+  }
+  .body-large {
+    @apply text-lg font-normal;
+  }
+  .body-small {
+    @apply text-sm;
   }
 }
