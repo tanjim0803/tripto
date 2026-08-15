@@ -226,22 +226,25 @@
   .container-main {
     @apply max-w-7xl mx-auto px-5 mt-8 md:mt-12 lg:mt-15 xl:mt-20;
   }
-  .btn-l {
-    @apply text-xl lg:text-2xl font-medium;
-  }
-  .btn-m {
-    @apply text-lg lg:text-xl font-medium;
-  }
-  .btn-s {
-    @apply text-base lg:text-lg font-medium;
-  }
-  .btn-xs {
-    @apply text-sm lg:text-base font-medium;
-  }
   .body-large {
     @apply text-lg font-normal;
   }
   .body-small {
     @apply text-sm;
+  }
+}
+
+@layer utilities {
+  .btn-lg {
+    @apply text-xl lg:text-2xl font-medium;
+  }
+  .btn-md {
+    @apply text-lg lg:text-xl font-medium;
+  }
+  .btn-sm {
+    @apply text-base lg:text-lg font-medium;
+  }
+  .btn-xs {
+    @apply text-sm lg:text-base font-medium;
   }
 }
