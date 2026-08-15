@@ -1,9 +1,150 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Globe, Menu } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuLink,
+} from "@/components/ui/navigation-menu";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import LanguageDropdown from "@/components/shared/LanguageDropdown";
+import ProfileDropdown from "@/components/shared/ProfileDropdown";
+import Sidebar from "@/components/shared/Sidebar";
+import { NavDropdown, NavButton } from "@/components/shared/DesktopNav";
+import NavData from "@/lib/data";
+import { NavGroup } from "@/types/nav";
+import Image from "next/image";
+import logo from "../../../public/assets/logo.svg";
+
 export default function Header() {
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const BREAKPOINT = 1024;
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= BREAKPOINT) {
+        setSheetOpen(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <header className="w-full">
-      <div className="container-main mt-0 flex justify-between py-6">
-        <div>Logo</div>
-        <div>Login</div>
+    <header className="sticky top-0 z-50 border-b bg-background">
+      {/* top bar */}
+      <div className="flex items-center justify-between px-4 py-2.5 max-w-7xl mx-auto">
+        {/* left */}
+        <div className="flex items-center gap-3">
+          {/* mobile sidebar */}
+          <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+            <SheetTrigger
+              id="mobile-sidebar-trigger-04"
+              className="lg:hidden"
+              render={
+                <Button variant="ghost" size="icon" className="cursor-pointer">
+                  <Menu size={20} />
+                </Button>
+              }
+            />
+
+            <SheetContent side="left" className="p-0 w-75">
+              <SheetTitle className="sr-only">customizer</SheetTitle>
+
+              <ScrollArea className="h-full">
+                <a
+                  href="#"
+                  className="p-4 sticky top-0 bg-background z-10 block"
+                >
+                  <Image
+                    src={logo}
+                    alt="logo"
+                    className="dark:hidden w-[160px] h-10"
+                  />
+                </a>
+
+                <Sidebar onLinkClick={() => setSheetOpen(false)} />
+              </ScrollArea>
+            </SheetContent>
+          </Sheet>
+
+          <a href="#">
+            <Image src={logo} alt="logo" className="w-40 h-10" />
+          </a>
+        </div>
+
+        {/* MIDDLE NAV (DESKTOP ONLY) */}
+        <div className="hidden lg:flex items-center justify-between">
+          <NavigationMenu>
+            <NavigationMenuList className="space-x-0">
+              {(NavData as NavGroup[]).map((item) => {
+                if (item.type === "dropdown" && item.items) {
+                  return (
+                    <NavDropdown
+                      key={item.label}
+                      label={item.label}
+                      icon={item.icon}
+                      items={item.items}
+                    />
+                  );
+                }
+                return (
+                  <NavigationMenuItem key={item.label}>
+                    <NavigationMenuLink
+                      render={<NavButton label={item.label} icon={item.icon} />}
+                    />
+                  </NavigationMenuItem>
+                );
+              })}
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
+
+        {/* RIGHT */}
+        <div className="flex items-center gap-2">
+          <LanguageDropdown
+            trigger={
+              <Button
+                id="language-dropdown-trigger-04"
+                variant="ghost"
+                size="icon"
+                className="focus-visible:ring-0! focus-visible:shadow-none! rounded-full! hover:bg-accent/80! cursor-pointer"
+                suppressHydrationWarning
+              >
+                <Globe size={16} />
+              </Button>
+            }
+          />
+          <ProfileDropdown
+            trigger={
+              <Button
+                id="profile-dropdown-trigger-04"
+                variant="ghost"
+                size="icon"
+                className="size-7 rounded-full cursor-pointer"
+                suppressHydrationWarning
+              >
+                <Avatar className="size-7 rounded-full">
+                  <AvatarImage src="https://images.shadcnspace.com/assets/profiles/user-11.jpg" />
+                  <AvatarFallback>NJ</AvatarFallback>
+                </Avatar>
+              </Button>
+            }
+          />
+        </div>
       </div>
     </header>
   );
