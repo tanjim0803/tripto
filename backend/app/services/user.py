@@ -2,7 +2,12 @@ from fastapi import HTTPException, status, UploadFile
 from app.models.user import User
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from app.utils.user import password_hash, verify_password
+from app.utils.user import (
+    password_hash,
+    verify_password,
+    create_access_token,
+    create_refresh_token,
+)
 from app.utils.file_upload import save_upload_file
 
 
@@ -57,7 +62,14 @@ class UserServices:
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials!"
             )
 
-        return {"message": "Successfully logged in!"}
+        access_token = create_access_token(user.id)
+        refresh_token = create_refresh_token(user.id)
+
+        return {
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "token_type": "bearer",
+        }
 
 
 user_services = UserServices()
