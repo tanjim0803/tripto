@@ -56,14 +56,11 @@ class UserServices:
     ):
         user = await self.get_user_by_email(db, email)
 
-        if not user:
+        if not user or not verify_password(password, user.hashed_password):
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="User doesn't exists!"
-            )
-
-        if not verify_password(password, user.hashed_password):
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials!"
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Incorrect email or password!",
+                headers={"WWW-Authenticate": "Bearer"},
             )
 
         access_token = create_access_token(str(user.id))
@@ -86,32 +83,34 @@ class UserServices:
         }
 
     async def refresh_token(self, db: AsyncSession, token: str):
+        try:
+            token_decode = decode_token(token)
+            if token_decode.get("type") != "refresh_token":
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Invalid token type!",
+                )
+        except Exception:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid or expired token!",
+            )
+
         stmt = await db.execute(select(RefreshToken).where(RefreshToken.token == token))
         token_exists = stmt.scalar_one_or_none()
 
-        if not token_exists:
+        if not token_exists or token_exists.revoked:
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail="Token not found!"
-            )
-
-        token_decode = decode_token(token)
-
-        if token_decode.get("type") != "refresh_token":
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid token type!"
-            )
-
-        if token_exists.revoked:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="Expired token!"
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token is invalid or revoked!",
             )
 
         if token_exists.expired_at < datetime.now(tz=timezone.utc):
-            revoked_token = RefreshToken(revoked=True)
-            db.add(revoked_token)
+            token_exists.revoked = True
             await db.commit()
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail="Expired token!"
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Session expired. Please log in again!",
             )
 
         access_token = create_access_token(str(token_exists.user_id))
