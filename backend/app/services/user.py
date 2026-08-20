@@ -2,7 +2,7 @@ from fastapi import HTTPException, status, UploadFile
 from app.models.user import User
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from app.utils.user import password_hash
+from app.utils.user import password_hash, verify_password
 from app.utils.file_upload import save_upload_file
 
 
@@ -41,6 +41,23 @@ class UserServices:
         db.refresh(new_user)
 
         return new_user
+
+    async def sign_in_with_email_password(
+        self, db: AsyncSession, email: str, password: str
+    ):
+        user = await self.get_user_by_email(db, email)
+
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="User doesn't exists!"
+            )
+
+        if not verify_password(password, user.hashed_password):
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials!"
+            )
+
+        return {"message": "Successfully logged in!"}
 
 
 user_services = UserServices()
