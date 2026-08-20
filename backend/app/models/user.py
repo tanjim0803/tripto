@@ -11,5 +11,6 @@ class User(Base):
     email: Mapped[str] = mapped_column(
         String(50), nullable=False, unique=True, index=True
     )
+    hashed_password: Mapped[str] = mapped_column(nullable=False)
     image: Mapped[str] = mapped_column(nullable=False)
     email_verified: Mapped[bool] = mapped_column(default=False, nullable=False)
