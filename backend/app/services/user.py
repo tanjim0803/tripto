@@ -1,5 +1,6 @@
 from fastapi import HTTPException, status, UploadFile
 from app.models.user import User
+from app.models.refresh_token import RefreshToken
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.utils.user import (
@@ -7,8 +8,11 @@ from app.utils.user import (
     verify_password,
     create_access_token,
     create_refresh_token,
+    decode_token,
 )
 from app.utils.file_upload import save_upload_file
+from app.config import security_settings
+from datetime import datetime, timezone, timedelta
 
 
 class UserServices:
@@ -62,14 +66,57 @@ class UserServices:
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials!"
             )
 
-        access_token = create_access_token(user.id)
-        refresh_token = create_refresh_token(user.id)
+        access_token = create_access_token(str(user.id))
+        refresh_token = create_refresh_token(str(user.id))
+
+        db_refresh_token = RefreshToken(
+            user_id=user.id,
+            token=refresh_token,
+            expired_at=datetime.now(tz=timezone.utc)
+            + timedelta(days=security_settings.JWT_REFRESH_TOKEN_TIME_DAY),
+        )
+
+        db.add(db_refresh_token)
+        await db.commit()
 
         return {
             "access_token": access_token,
             "refresh_token": refresh_token,
             "token_type": "bearer",
         }
+
+    async def refresh_token(self, db: AsyncSession, token: str):
+        stmt = await db.execute(select(RefreshToken).where(RefreshToken.token == token))
+        token_exists = stmt.scalar_one_or_none()
+
+        if not token_exists:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Token not found!"
+            )
+
+        token_decode = decode_token(token)
+
+        if token_decode.get("type") != "refresh_token":
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid token type!"
+            )
+
+        if token_exists.revoked:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Expired token!"
+            )
+
+        if token_exists.expired_at < datetime.now(tz=timezone.utc):
+            revoked_token = RefreshToken(revoked=True)
+            db.add(revoked_token)
+            await db.commit()
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Expired token!"
+            )
+
+        access_token = create_access_token(str(token_exists.user_id))
+
+        return {"access_token": access_token, "token_type": "bearer"}
 
 
 user_services = UserServices()

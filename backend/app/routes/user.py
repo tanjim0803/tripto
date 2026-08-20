@@ -22,3 +22,8 @@ async def register_user(
 @router.post("/login")
 async def login_with_email_password(db: SessionDep, email: EmailStr, password: str):
     return await user_services.sign_in_with_email_password(db, email, password)
+
+
+@router.post("/refresh")
+async def refresh(db: SessionDep, token: str):
+    return await user_services.refresh_token(db, token)
