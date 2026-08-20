@@ -11,6 +11,10 @@ class DatabaseSettings(BaseSettings):
     DATABASE_HOST: str
     DATABASE_PORT: int
     DATABASE_NAME: str
+    
+    REDIS_HOST: str
+    REDIS_PORT: int
+    REDIS_DB: int
 
     model_config = _base_config
 
