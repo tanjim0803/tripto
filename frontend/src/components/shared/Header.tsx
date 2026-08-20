@@ -144,6 +144,8 @@ export default function Header() {
               </Button>
             }
           />
+
+          <Button>Login</Button>
         </div>
       </div>
     </header>

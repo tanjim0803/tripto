@@ -6,11 +6,27 @@ import {
   Palmtree,
   Plane,
   Search,
-  Users,
 } from "lucide-react";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import Image from "next/image";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const items = [
+  { label: "Select a destination", value: null },
+  { label: "Dhaka", value: "dhaka" },
+  { label: "Bali", value: "bali" },
+  { label: "China", value: "china" },
+  { label: "Maldives", value: "maldives" },
+  { label: "Singapore", value: "singapore" },
+];
 
 export default function Hero() {
   return (
@@ -32,57 +48,55 @@ export default function Hero() {
       {/* Search Bar Overlay */}
       <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 w-full max-w-5xl px-5 z-20">
         <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 text-neutral-900 border border-neutral-100">
-          {/* Tabs */}
-          <div className="flex gap-4 border-b border-neutral-200 pb-3 mb-4 overflow-x-auto">
-            <button className="flex items-center gap-2 text-primary-500 font-semibold border-b-2 border-primary-500 pb-1">
-              <Building className="w-4 h-4" /> Stays
-            </button>
-            <button className="flex items-center gap-2 text-neutral-500 font-medium pb-1 hover:text-neutral-800">
-              <Plane className="w-4 h-4" /> Flights
-            </button>
-            <button className="flex items-center gap-2 text-neutral-500 font-medium pb-1 hover:text-neutral-800">
-              <Car className="w-4 h-4" /> Car Rental
-            </button>
-            <button className="flex items-center gap-2 text-neutral-500 font-medium pb-1 hover:text-neutral-800">
-              <Palmtree className="w-4 h-4" /> Attractions
-            </button>
-          </div>
-
           {/* Input Grid */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
             <div className="flex flex-col border-r border-neutral-200 pr-2">
               <span className="text-xs text-neutral-400 font-medium">
-                Location
+                Destination
               </span>
               <div className="flex items-center gap-2 mt-1">
                 <MapPin className="w-4 h-4 text-neutral-400" />
-                <Input
-                  type="text"
-                  placeholder="Where are you going?"
-                  className="border-none p-0 focus-visible:ring-0 text-sm font-medium"
+                <Select items={items}>
+                  <SelectTrigger className="w-full max-w-48">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Fruits</SelectLabel>
+                      {items.map((item) => (
+                        <SelectItem key={item.value} value={item.value}>
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="flex flex-col border-r border-neutral-200 pr-4">
+              <span className="text-xs text-neutral-400 font-medium">
+                Check-in
+              </span>
+              <div className="flex items-center gap-2 mt-1 relative text-neutral-700 hover:text-neutral-900 transition-colors">
+                <Calendar className="w-4 h-4 text-neutral-400 shrink-0 pointer-events-none" />
+                <input
+                  type="date"
+                  className="bg-transparent text-sm font-medium focus:outline-none focus:ring-0 border-none p-0 cursor-pointer text-neutral-800 placeholder:text-neutral-400 w-full"
                 />
               </div>
             </div>
 
-            <div className="flex flex-col border-r border-neutral-200 pr-2">
+            <div className="flex flex-col border-r border-neutral-200 pr-4">
               <span className="text-xs text-neutral-400 font-medium">
-                Check-in / Check-out
+                Check-out
               </span>
-              <div className="flex items-center gap-2 mt-1">
-                <Calendar className="w-4 h-4 text-neutral-400" />
-                <span className="text-sm font-medium">Add dates</span>
-              </div>
-            </div>
-
-            <div className="flex flex-col border-r border-neutral-200 pr-2">
-              <span className="text-xs text-neutral-400 font-medium">
-                Guests
-              </span>
-              <div className="flex items-center gap-2 mt-1">
-                <Users className="w-4 h-4 text-neutral-400" />
-                <span className="text-sm font-medium">
-                  2 Adults, 0 Children
-                </span>
+              <div className="flex items-center gap-2 mt-1 relative text-neutral-700 hover:text-neutral-900 transition-colors">
+                <Calendar className="w-4 h-4 text-neutral-400 shrink-0 pointer-events-none" />
+                <input
+                  type="date"
+                  className="bg-transparent text-sm font-medium focus:outline-none focus:ring-0 border-none p-0 cursor-pointer text-neutral-800 placeholder:text-neutral-400 w-full"
+                />
               </div>
             </div>
 
