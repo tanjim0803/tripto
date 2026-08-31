@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Form, File, UploadFile, status, Depends
-from app.schemas.user import UserOut
+from app.schemas.user import UserOut, OTPRequest
 from app.database.session import SessionDep
 from pydantic import EmailStr
 from app.services.user import user_services
@@ -40,3 +40,8 @@ async def refresh(db: SessionDep, token: str):
 @router.get("/me", response_model=UserOut)
 async def me(user: Annotated[User, Depends(get_current_user)]):
     return user
+
+
+@router.post("/request-otp")
+async def request_otp(data: OTPRequest):
+    pass
