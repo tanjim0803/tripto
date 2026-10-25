@@ -1,6 +1,10 @@
+"use client";
+
 import React from "react";
 import { User, CreditCard, Plane, Heart, Headphones, MessageSquare, Settings, LogOut, ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type NavItem = {
   label: string;
@@ -18,12 +22,11 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Settings", icon: Settings, value: "settings" },
 ];
 
-interface ProfileSidebarProps {
-  activeTab: string;
-  setActiveTab: (value: string) => void;
-}
+interface ProfileSidebarProps {}
 
-export default function ProfileSidebar({ activeTab, setActiveTab }: ProfileSidebarProps) {
+export default function ProfileSidebar() {
+  const pathname = usePathname();
+  const activeTab = pathname.split("/profile/")[1] || "personal-data";
   const isTripsOpen = activeTab === "trips";
 
   return (
@@ -47,30 +50,31 @@ export default function ProfileSidebar({ activeTab, setActiveTab }: ProfileSideb
       <nav className="flex flex-col gap-1 px-2">
         {NAV_ITEMS.map((item) => (
           <div key={item.value} className="flex flex-col">
-            <button
-              onClick={() => setActiveTab(item.value)}
+            <Link
+              href={`/profile/${item.value === "personal-data" ? "" : item.value}`}
               className={cn(
                 "flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors",
-                activeTab === item.value
+                (activeTab === item.value || (item.value === "personal-data" && activeTab === ""))
                   ? "bg-primary-50 text-primary font-medium"
                   : "text-muted-foreground hover:bg-accent hover:text-foreground"
               )}
             >
               <div className="flex items-center gap-3">
-                <item.icon size={18} className={cn(activeTab === item.value ? "text-primary" : "text-muted-foreground")} />
+                <item.icon size={18} className={cn((activeTab === item.value || (item.value === "personal-data" && activeTab === "")) ? "text-primary" : "text-muted-foreground")} />
                 <span>{item.label}</span>
               </div>
               {item.value === "trips" && (
                 isTripsOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />
               )}
-            </button>
+            </Link>
 
             {/* Trips Sub-menu */}
             {item.value === "trips" && isTripsOpen && (
               <div className="ml-9 mt-1 flex flex-col gap-1">
                 {["All", "Active", "Completed", "Canceled"].map((sub) => (
-                  <button
+                  <Link
                     key={sub}
+                    href={`/profile/trips?filter=${sub.toLowerCase()}`}
                     className={cn(
                       "text-left px-3 py-1.5 text-xs rounded-md transition-colors",
                       sub === "Active"
@@ -79,7 +83,7 @@ export default function ProfileSidebar({ activeTab, setActiveTab }: ProfileSideb
                     )}
                   >
                     {sub}
-                  </button>
+                  </Link>
                 ))}
               </div>
             )}
