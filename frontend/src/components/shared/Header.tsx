@@ -144,8 +144,8 @@ export default function Header() {
               </Button>
             }
           />
+          {/* Login button removed as per design showing user is already logged in */}
 
-          <Button>Login</Button>
         </div>
       </div>
     </header>
