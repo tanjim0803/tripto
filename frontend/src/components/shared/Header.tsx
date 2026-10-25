@@ -46,7 +46,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b bg-background">
       {/* top bar */}
-      <div className="flex items-center justify-between px-4 py-2.5 max-w-7xl mx-auto">
+      <div className="flex items-center justify-between lg:px-20 py-2.5 max-w-8xl mx-auto">
         {/* left */}
         <div className="flex items-center gap-3">
           {/* mobile sidebar */}

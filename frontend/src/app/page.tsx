@@ -1,27 +1,28 @@
-import DealsForTheWeekend from "@/components/home/deals-for-the-weekend";
-import ExploreTriptoInMotion from "@/components/home/explore-tripto-in-motion";
-import Hero from "@/components/home/hero";
-import HomesGuestsLove from "@/components/home/homes-guests-love";
-import Testimonial from "@/components/home/testimonial";
-import TopSightsToSee from "@/components/home/top-sights-to-see";
-import TopThingsToDoInBarcelona from "@/components/home/top-things-to-do-in-barcelona";
-import TravelMoreSpendLess from "@/components/home/travel-more-spend-less";
-import TrendingDestinations from "@/components/home/trending-destinations";
-import WhyTravellersTrustTripto from "@/components/home/why-travellers-trust-tripto";
+import React from 'react';
+import HeroSection from '../components/home/HeroSection';
+import WhyTriptoSection from '../components/home/WhyTriptoSection';
+import TrendingDestinations from '../components/home/TrendingDestinations';
+import DealsSection from '../components/home/DealsSection';
+import TravelMoreSpendLessSection from '../components/home/TravelMoreSpendLessSection';
+import TopSightsSection from '../components/home/TopSightsSection';
+import TopThingsToDoSection from '../components/home/TopThingsToDoSection';
+import ExploreMotionSection from '../components/home/ExploreMotionSection';
+import HomesGuestsLoveSection from '../components/home/HomesGuestsLoveSection';
+import TestimonialsSection from '../components/home/TestimonialsSection';
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="w-full">
-      <Hero />
-      <WhyTravellersTrustTripto />
+    <main className="min-h-screen bg-background">
+      <HeroSection />
+      <WhyTriptoSection />
       <TrendingDestinations />
-      <DealsForTheWeekend />
-      <TravelMoreSpendLess />
-      <TopSightsToSee />
-      <TopThingsToDoInBarcelona />
-      <ExploreTriptoInMotion />
-      <HomesGuestsLove />
-      <Testimonial />
-    </div>
+      <DealsSection />
+      <TravelMoreSpendLessSection />
+      <TopSightsSection />
+      <TopThingsToDoSection />
+      <ExploreMotionSection />
+      <HomesGuestsLoveSection />
+      <TestimonialsSection />
+    </main>
   );
 }
