@@ -10,6 +10,7 @@ import {
   ChevronRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import {
   Select,
   SelectContent,
@@ -45,10 +46,11 @@ export function HotelCard({ hotel }: HotelCardProps) {
   return (
     <div className="flex flex-col md:flex-row gap-6 p-4 border rounded-2xl hover:shadow-md transition-shadow bg-white">
       <div className="relative w-full md:w-72 h-48 shrink-0 overflow-hidden rounded-xl">
-        <img
+        <Image
           src={hotel.image}
           alt={hotel.name}
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
         />
         {hotel.badge && (
           <div className="absolute top-3 left-3">
@@ -63,7 +65,9 @@ export function HotelCard({ hotel }: HotelCardProps) {
             <h3 className="text-xl font-semibold text-slate-900">{hotel.name}</h3>
             <div className="flex items-center gap-2 text-sm text-slate-500 mt-1">
               <MapPin size={14} />
-              <span>{hotel.location} • {hotel.distance} • Metro access {hotel.metroDistance}</span>
+              <span className="flex items-center gap-1">
+                {hotel.location} • {hotel.distance} • <span className="text-slate-400">Metro</span> {hotel.metroDistance}
+              </span>
             </div>
           </div>
           <div className="text-right">

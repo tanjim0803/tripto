@@ -15,10 +15,10 @@ import {
   Bookmark,
   LogOut,
   LucideIcon,
-  ReceiptText,
   Settings,
   User,
 } from "lucide-react";
+import Link from "next/link";
 
 type Props = {
   trigger: ReactElement;
@@ -29,16 +29,17 @@ type Props = {
 type MenuItem = {
   label: string;
   icon: LucideIcon;
+  href?: string;
   destructive?: boolean;
 };
 
 const PROFILE_ITEMS: MenuItem[] = [
-  { label: "My Profile", icon: User },
-  { label: "My Invoice", icon: ReceiptText },
+  { label: "My Profile", icon: User, href: "/profile" },
+  { label: "Wish Lists", icon: Bookmark, href: "/profile/wish-lists" },
 ];
 
 const SETTINGS_ITEMS: MenuItem[] = [
-  { label: "Account Settings", icon: Settings },
+  { label: "Account Settings", icon: Settings, href: "/profile/settings" },
 ];
 
 const LOGOUT_ITEM: MenuItem = {
@@ -82,10 +83,12 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
           <DropdownMenuSeparator />
 
           {/* Main Links */}
-          {PROFILE_ITEMS.map(({ label, icon: Icon }) => (
-            <DropdownMenuItem key={label} className={itemClass}>
-              <Icon size={20} className="text-foreground" />
-              <span>{label}</span>
+          {PROFILE_ITEMS.map(({ label, icon: Icon, href }) => (
+            <DropdownMenuItem key={label}>
+              <Link href={href || "#"} className={`${itemClass} flex items-center w-full`}>
+                <Icon size={20} className="text-foreground" />
+                <span className="flex-1">{label}</span>
+              </Link>
             </DropdownMenuItem>
           ))}
 
@@ -93,10 +96,12 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
 
           {/* Settings */}
           <DropdownMenuGroup>
-            {SETTINGS_ITEMS.map(({ label, icon: Icon }) => (
-              <DropdownMenuItem key={label} className={itemClass}>
-                <Icon size={20} className="text-foreground" />
-                <span>{label}</span>
+            {SETTINGS_ITEMS.map(({ label, icon: Icon, href }) => (
+              <DropdownMenuItem key={label}>
+                <Link href={href || "#"} className={`${itemClass} flex items-center w-full`}>
+                  <Icon size={20} className="text-foreground" />
+                  <span className="flex-1">{label}</span>
+                </Link>
               </DropdownMenuItem>
             ))}
           </DropdownMenuGroup>

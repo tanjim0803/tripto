@@ -4,6 +4,7 @@ import React from "react";
 import { User, CreditCard, Plane, Heart, Headphones, MessageSquare, Settings, LogOut, ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 type NavItem = {
@@ -33,11 +34,12 @@ export default function ProfileSidebar() {
     <aside className="w-64 flex flex-col gap-6 py-6 border-r h-full bg-background">
       {/* User Profile Header */}
       <div className="px-4 flex items-center gap-3">
-        <div className="relative">
-          <img
+        <div className="relative size-12">
+          <Image
             src="https://images.shadcnspace.com/assets/profiles/user-11.jpg"
             alt="User"
-            className="size-12 rounded-full object-cover"
+            fill
+            className="rounded-full object-cover"
           />
         </div>
         <div className="flex flex-col">
@@ -51,16 +53,16 @@ export default function ProfileSidebar() {
         {NAV_ITEMS.map((item) => (
           <div key={item.value} className="flex flex-col">
             <Link
-              href={`/profile/${item.value === "personal-data" ? "" : item.value}`}
+              href={`/profile/${item.value}`}
               className={cn(
                 "flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors",
-                (activeTab === item.value || (item.value === "personal-data" && activeTab === ""))
+                (activeTab === item.value)
                   ? "bg-primary-50 text-primary font-medium"
                   : "text-muted-foreground hover:bg-accent hover:text-foreground"
               )}
             >
               <div className="flex items-center gap-3">
-                <item.icon size={18} className={cn((activeTab === item.value || (item.value === "personal-data" && activeTab === "")) ? "text-primary" : "text-muted-foreground")} />
+                <item.icon size={18} className={cn((activeTab === item.value) ? "text-primary" : "text-muted-foreground")} />
                 <span>{item.label}</span>
               </div>
               {item.value === "trips" && (
