@@ -24,6 +24,7 @@ import { NavDropdown, NavButton } from "@/components/shared/DesktopNav";
 import NavData from "@/lib/data";
 import { NavGroup } from "@/types/nav";
 import Image from "next/image";
+import Link from "next/link";
 import logo from "../../../public/assets/logo.svg";
 
 export default function Header() {
@@ -65,25 +66,25 @@ export default function Header() {
               <SheetTitle className="sr-only">customizer</SheetTitle>
 
               <ScrollArea className="h-full">
-                <a
-                  href="#"
+                <Link
+                  href="/"
                   className="p-4 sticky top-0 bg-background z-10 block"
                 >
                   <Image
                     src={logo}
                     alt="logo"
-                    className="dark:hidden w-[160px] h-10"
+                    className="dark:hidden w-40 h-10"
                   />
-                </a>
+                </Link>
 
                 <Sidebar onLinkClick={() => setSheetOpen(false)} />
               </ScrollArea>
             </SheetContent>
           </Sheet>
 
-          <a href="#">
+          <Link href="/">
             <Image src={logo} alt="logo" className="w-40 h-10" />
-          </a>
+          </Link>
         </div>
 
         {/* MIDDLE NAV (DESKTOP ONLY) */}
@@ -104,7 +105,7 @@ export default function Header() {
                 return (
                   <NavigationMenuItem key={item.label}>
                     <NavigationMenuLink
-                      render={<NavButton label={item.label} icon={item.icon} />}
+                      render={<NavButton label={item.label} icon={item.icon} href={item.href} />}
                     />
                   </NavigationMenuItem>
                 );

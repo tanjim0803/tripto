@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   FaFacebookF,
   FaTwitter,
@@ -25,25 +26,25 @@ export default function Footer() {
           </p>
           <div className="flex gap-4">
             <a
-              href="#"
+              href="https://facebook.com"
               className="text-neutral-400 hover:text-white transition-colors"
             >
               <FaFacebookF className="w-5 h-5" />
             </a>
             <a
-              href="#"
+              href="https://twitter.com"
               className="text-neutral-400 hover:text-white transition-colors"
             >
               <FaTwitter className="w-5 h-5" />
             </a>
             <a
-              href="#"
+              href="https://instagram.com"
               className="text-neutral-400 hover:text-white transition-colors"
             >
               <FaInstagram className="w-5 h-5" />
             </a>
             <a
-              href="#"
+              href="https://linkedin.com"
               className="text-neutral-400 hover:text-white transition-colors"
             >
               <FaLinkedinIn className="w-5 h-5" />
@@ -55,16 +56,19 @@ export default function Footer() {
           <h4 className="text-lg font-semibold mb-6">Quick Links</h4>
           <ul className="flex flex-col gap-3 text-neutral-400 text-sm">
             <li className="hover:text-white cursor-pointer transition-colors">
-              Home
+              <Link href="/" className="block w-full">Home</Link>
             </li>
             <li className="hover:text-white cursor-pointer transition-colors">
-              Explore Stays
+              <Link href="/search" className="block w-full">Explore Stays</Link>
             </li>
             <li className="hover:text-white cursor-pointer transition-colors">
-              Trending
+              <Link href="/recommended-places" className="block w-full">Trending Destinations</Link>
             </li>
             <li className="hover:text-white cursor-pointer transition-colors">
-              Offers
+              <Link href="/about-us" className="block w-full">About Us</Link>
+            </li>
+            <li className="hover:text-white cursor-pointer transition-colors">
+              <Link href="/contact-us" className="block w-full">Contact Us</Link>
             </li>
           </ul>
         </div>
@@ -73,16 +77,16 @@ export default function Footer() {
           <h4 className="text-lg font-semibold mb-6">Support</h4>
           <ul className="flex flex-col gap-3 text-neutral-400 text-sm">
             <li className="hover:text-white cursor-pointer transition-colors">
-              Help Center
+              <Link href="/faq" className="block w-full">FAQs</Link>
             </li>
             <li className="hover:text-white cursor-pointer transition-colors">
-              Safety Information
+              <Link href="/privacy-policy" className="block w-full">Privacy Policy</Link>
             </li>
             <li className="hover:text-white cursor-pointer transition-colors">
-              Cancellation Options
+              <Link href="/refund-policy" className="block w-full">Refund Policy</Link>
             </li>
             <li className="hover:text-white cursor-pointer transition-colors">
-              Terms of Service
+              <Link href="/terms-and-conditions" className="block w-full">Terms & Conditions</Link>
             </li>
           </ul>
         </div>
@@ -108,12 +112,12 @@ export default function Footer() {
       <div className="container-main mt-16 pt-8 border-t border-neutral-800 flex flex-col md:flex-row justify-between items-center gap-4 text-neutral-500 text-xs">
         <p>© {new Date().getFullYear()} Tripto. All rights reserved.</p>
         <div className="flex gap-6">
-          <span className="hover:text-white cursor-pointer transition-colors">
+          <Link href="/privacy-policy" className="hover:text-white cursor-pointer transition-colors">
             Privacy Policy
-          </span>
-          <span className="hover:text-white cursor-pointer transition-colors">
+          </Link>
+          <Link href="/cookie-policy" className="hover:text-white cursor-pointer transition-colors">
             Cookie Settings
-          </span>
+          </Link>
         </div>
       </div>
     </footer>

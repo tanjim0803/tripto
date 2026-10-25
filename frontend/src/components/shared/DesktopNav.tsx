@@ -1,5 +1,6 @@
 import { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   NavigationMenuContent,
   NavigationMenuItem,
@@ -62,16 +63,20 @@ export function NavDropdown({
 export function NavButton({
   label,
   icon: Icon,
+  href,
 }: {
   label: string;
   icon: LucideIcon;
+  href: string;
 }) {
   return (
-    <Button variant="ghost" className="gap-2 rounded-lg">
-      <span className="flex items-center gap-2">
-        <Icon size={16} />
-        <span className="text-sm">{label}</span>
-      </span>
-    </Button>
+    <Link href={href} className="w-full">
+      <Button variant="ghost" className="gap-2 rounded-lg w-full">
+        <span className="flex items-center gap-2">
+          <Icon size={16} />
+          <span className="text-sm">{label}</span>
+        </span>
+      </Button>
+    </Link>
   );
 }
